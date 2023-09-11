@@ -1,0 +1,103 @@
+
+#spring:
+#  application:
+#    name: complaintintakeeaicollectorservice
+#  profiles:
+#    active: collecteaintake, development
+#  config:
+#    import: configserver:http://gcmsdevcwn00001:8888/
+#logging:
+#  level:
+#    com.zaxxer.hikari.HikariDataSource: DEBUG
+##    org.springframework: DEBUG
+#  artemis:
+#    mode: native
+#    broker-url: tcp://localhost:8161?consumerWindowSize=0
+#    user: dmane
+#    password: dmane
+#iws:
+#  url: http://localhost:8080/TW_IWS/services/TrackWise
+#  connection-wait-time-seconds: 30
+#  loginPasswordDelimiter: ~~
+#  timeZone: GMT
+#  dateSkewInSeconds: -45
+collecteaintake:
+  sendTo: deepak.mane@bsci.com
+  jobExecutionInMillis: 10800
+  jobExecutionInSeconds: 10800
+server:
+  port: 8080
+
+#iws:
+#  url: http://localhost:8080/TW_IWS/services/TrackWise
+#  connection-wait-time-seconds: 30
+#  loginPasswordDelimiter: ~~
+#  timeZone: GMT
+#  dateSkewInSeconds: -45
+
+#connection-wait-time-seconds: 30
+
+spring:
+  application:
+    name: complaintintakeeaicollectorservice
+  profiles:
+    active: collecteaintake , development
+  config:
+    import: configserver:http://gcmsdevcwn00001:8888/
+  artemis:
+    mode: native
+    broker-url: tcp://localhost:8161?consumerWindowSize=0
+    user: dmane
+    password: dmane
+
+  jms:
+    connection-factory:
+      qcf-eai-trackwise1:
+        type: com.ibm.mq.jms.MQXAQueueConnectionFactory
+        factory: com.ibm.mq.jms.MQXAQueueConnectionFactoryFactory
+        description: JMS Queue Connection Factory for EAI
+        CLIENTRECONNECTOPTIONS: QMGR
+        CLIENTRECONNECTTIMEOUT: 300
+        CCDTURL: file:///D:/Tomcat9/conf/GCMS_CCDT.tab
+        TRAN: 1
+        QMGR: GCMSGW1VAL
+
+      qcf-eai-trackwise2:
+        type: com.ibm.mq.jms.MQXAQueueConnectionFactory
+        factory: com.ibm.mq.jms.MQXAQueueConnectionFactoryFactory
+        description: JMS Queue Connection Factory for EAI
+        CLIENTRECONNECTOPTIONS: QMGR
+        CLIENTRECONNECTTIMEOUT: 300
+        CCDTURL: file:///D:/Tomcat9/conf/GCMS_CCDT.tab
+        TRAN: 1
+        QMGR: GCMSGW2VAL
+
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@gcmsdevoln00001:1521/gcmsdev
+    username: sysadm
+    password: cssb#x01
+
+queues:
+  successes1: JobSuccess1
+  failures1: JobFailures1
+  successes2: JobSuccess2
+  failures2: JobFailures2
+  email: SendEmail
+
+messagingTerms:
+  whichJobSelectorPropertyName : WHO_AM_I
+  whatTypeOfMessageIsThisPropertyName: MESSAGE_POJO_NAME
+
+logging:
+  level:
+    com.zaxxer.hikari: DEBUG
+    org.springframework: DEBUG
+    com.bsc: DEBUG
+    org.mybatis: DEBUG
+    org.apacheibatis: DEBUG
+
+
+
